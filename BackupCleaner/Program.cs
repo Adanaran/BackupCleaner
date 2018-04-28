@@ -39,11 +39,11 @@ namespace BackupCleaner
 
       var filesByDate = filesWithDates.GroupBy(x => x.Date).ToDictionary(x => x.Key, x => x.Select(y => y.FilePath));
 
-      var sevenDaysAgo = DateTime.Today.AddDays(-7);
-      var sixMonthsAgo = DateTime.Today.AddMonths(-6);
+      var onlySundayBackupRetainmentThreshold = DateTime.Today.AddDays(-7);
+      var maxBackupRetaimentThreshold = DateTime.Today.AddDays(-90);
       foreach (var (date, filePaths) in filesByDate)
       {
-        var dateToKeep = date.DayOfWeek == DayOfWeek.Sunday ? sixMonthsAgo : sevenDaysAgo;
+        var dateToKeep = date.DayOfWeek == DayOfWeek.Sunday ? maxBackupRetaimentThreshold : onlySundayBackupRetainmentThreshold;
 
         if (date < dateToKeep)
         {
